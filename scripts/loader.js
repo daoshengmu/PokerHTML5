@@ -9,9 +9,11 @@ var dsmu = {
     images : {}
 };
 
+var poker = {};
+
 window.addEventListener("load", function() {
 
-// determine jewel size
+// determine mario size
 var marioProto = document.getElementById("mario-proto"),
     rect = marioProto.getBoundingClientRect();
     
@@ -75,6 +77,7 @@ Modernizr.load([
         "scripts/sizzle.js",
         "scripts/dom.js",
         "scripts/requestAnimationFrame.js",
+        "scripts/libs/entity.js",
         "scripts/game.js"
     ]
 },{
@@ -109,11 +112,16 @@ if (Modernizr.standalone) {
     },{
         load : [
             "loader!scripts/screen.main-menu.js",
+            "loader!scripts/screen.entity.js",
             "loader!scripts/screen.game.js",
             "loader!scripts/screen.gameover.js",
             "loader!scripts/screen.about.js",
             "loader!scripts/screen.hiscore.js",
-            "loader!images/angel.png"
+            "loader!images/angel.png", // can be removed, it is Mario
+            "loader!images/table-felt.jpg",
+            "loader!images/dealer.jpg",
+            "loader!images/player1.jpg",
+            "loader!images/player2.jpg",
         ]
     }
     ]);

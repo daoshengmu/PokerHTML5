@@ -29,14 +29,14 @@ dsmu.display = (function() {
 //            }
 //        }
 
-            var canvas = document.createElement("canvas"),
-            ctx = canvas.getContext("2d"),
-            background = $("#game .background")[0];
-            //rect = background.getBoundingClientRect(),
-            //gradient,
-          //  i;
+          var canvas = document.createElement("canvas"),
+          ctx = canvas.getContext("2d"),
+          background = $("#game .background")[0];
+          //rect = background.getBoundingClientRect(),
+          //gradient,
+        //  i;
 
-              clear();
+          clear();
 //        canvas.width = rect.width;
 //        canvas.height = rect.height;
 //
@@ -60,20 +60,20 @@ dsmu.display = (function() {
 //            ctx.lineTo(i - 1, 1);
 //        }
 //        ctx.stroke();
-         background.appendChild(canvas);
+        background.appendChild(canvas);
         return background;
     }
     
     function clear() {        
-             ctx.fillStyle = '#d0e7f9';
-             ctx.beginPath();
-            //start drawing
-             ctx.rect(0, 0, canvas.width, canvas.height);
-            //draw rectangle from point (0, 0) to
-            //(width, height) covering whole canvas
-             ctx.closePath();
-            //end drawing
-             ctx.fill();
+       ctx.fillStyle = '#d0e7f9';
+       ctx.beginPath();
+      //start drawing
+       ctx.rect(0, 0, canvas.width, canvas.height);
+      //draw rectangle from point (0, 0) to
+      //(width, height) covering whole canvas
+       ctx.closePath();
+      //end drawing
+       ctx.fill();
     }
 
     function setup() {
@@ -124,21 +124,29 @@ dsmu.display = (function() {
             }
     }; 
     
-    function drawPlatforms( platforms )
+    function drawPlatforms( player )
     {
-        var platform, platformWidth, platformHeight;
-         for (var i = 0; i < platforms.length; i++) {
-               platform = platforms[i];
-               platformWidth = platform.platformWidth;
-               platformHeight = platform.platformHeight;
-               ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-                var gradient = ctx.createRadialGradient(platform.x + (platformWidth/2), platform.y + (platformHeight/2), 5, platform.x + (platformWidth/2), platform.y + (platformHeight/2), 45);
-                gradient.addColorStop(0, platform.firstColor);
-                gradient.addColorStop(1, platform.secondColor);
-                ctx.fillStyle = gradient;
-                ctx.fillRect(platform.x, platform.y, platformWidth, platformHeight);
-         }
-      
+        // var platform, platformWidth, platformHeight;
+        //  for (var i = 0; i < platforms.length; i++) {
+        //        platform = platforms[i];
+        //        platformWidth = platform.platformWidth;
+        //        platformHeight = platform.platformHeight;
+        //        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+        //         var gradient = ctx.createRadialGradient(platform.x + (platformWidth/2), platform.y + (platformHeight/2), 5, platform.x + (platformWidth/2), platform.y + (platformHeight/2), 45);
+        //         gradient.addColorStop(0, platform.firstColor);
+        //         gradient.addColorStop(1, platform.secondColor);
+        //         ctx.fillStyle = gradient;
+        //         ctx.fillRect(platform.x, platform.y, platformWidth, platformHeight);
+        //  }
+
+
+        player.forEach(
+          function(element) {
+            element.draw(ctx);
+          }
+        );
+        //  ctx.drawImage( player.image, 0, player.height * player.actualFrame, player.imageWidth
+        // , player.imageHeight, player.X, player.Y, player.width, player.height);
     }
     
     function drawPlayer( player )

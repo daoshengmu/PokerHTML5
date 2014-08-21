@@ -1,9 +1,10 @@
 dsmu.screens["game-screen"] = (function() {
-    var board = dsmu.board ,
+    var scene = poker.scene ,
             display = dsmu.display,          
             circles = [],
             nrOfPlatforms = 7,
             platforms = [],
+            drawList = [],
             platformWidth = dsmu.settings.platformWidth,
             platformHeight = dsmu.settings.platformHeight,
             points = 0,
@@ -11,6 +12,7 @@ dsmu.screens["game-screen"] = (function() {
             mouseX, mouseY,
             marioWidth = dsmu.settings.marioWidth,
             marioHeight = dsmu.settings.marioHeight,
+            tableSize = 80,
             gLoop,
             state = true,
             //canvas = document.createElement("canvas");
@@ -140,6 +142,22 @@ dsmu.screens["game-screen"] = (function() {
         }
         );
     };
+
+    // var table = new (function() {
+    //     var that = this;
+
+    //     that.width = tableSize;
+    //     that.height = tableSize;
+    //     that.imageWidth = tableSize;
+    //     that.imageHeight = tableSize;
+    //     that.actualFrame = 1;
+    //     that.X = 0;
+    //     that.Y = 0;
+    // })();
+    var table = new tableEntity();
+    var dealer = new dealerEntity();
+    var player1 = new playerEntity();
+    var player2 = new playerEntity();
 
     var player = new (function() {
         var that = this;
@@ -318,17 +336,20 @@ dsmu.screens["game-screen"] = (function() {
         }
     };
 
-    function detectPlayAgin()
+    function detectPlayAgain()
     {       
         dsmu.game.showScreen("game-over", points );           
     };
 
     function gameOver() {
+
+        return;
+
         state = false;
         //  cancelRequestAnimationFrame(gameUpdate);
         clearTimeout(gLoop);
         setTimeout(function() {
-            detectPlayAgin();         
+            detectPlayAgain();         
         }, 100);
 
     }
@@ -362,7 +383,7 @@ dsmu.screens["game-screen"] = (function() {
 
         //  moveCircles( 0.8);
 
-        display.redraw(circles, platforms, player, function() {
+        display.redraw(circles, drawList, player, function() {
             // do nothing for now
         });
 
@@ -379,11 +400,30 @@ dsmu.screens["game-screen"] = (function() {
         circles = [];
         points = 0;
         
-        board.initialize(function() {
+        scene.initialize(function() {
             display.initialize(function() {
                 player.image = dsmu.images["images/angel.png"];
-               
-                display.redraw(circles, platforms, player, function() {
+                table.init(tableSize, tableSize, 100);
+                table.setImage(dsmu.images['images/table-felt.jpg'], tableSize, tableSize);
+
+                dealer.init(256, 384, 0.6);
+                dealer.setImage(dsmu.images['images/dealer.jpg'], 256, 384);
+                dealer.setPos(50, 100);
+
+                player1.init(256, 384, 0.6);
+                player1.setImage(dsmu.images['images/player1.jpg'], 256, 384);
+                player1.setPos(20, 100);
+
+                player2.init(256, 384, 0.6);
+                player2.setImage(dsmu.images['images/player2.jpg'], 256, 384);
+                player2.setPos(80, 100);
+
+                drawList.push(table);
+                drawList.push(dealer);
+                drawList.push(player1);
+                drawList.push(player2);
+
+                display.redraw(circles, drawList, player, function() {
                     // do nothing for now
                 });
             });

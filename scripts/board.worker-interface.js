@@ -1,4 +1,4 @@
-dsmu.board  = (function() {
+poker.scene  = (function() {
     var dom = dsmu.dom,
         settings,
         worker,

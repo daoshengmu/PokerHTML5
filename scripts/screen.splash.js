@@ -10,6 +10,7 @@ dsmu.screens["splash-screen"] = (function() {
             var p = getLoadProgress() * 100;
             $(".indicator",scr)[0].style.width = p + "%";
             if (p === 100) {
+                dsmu.game.showScreen("game-screen"); // For show game screen directly
                 $(".continue",scr)[0].style.display = "block";
                 dom.bind(scr, "click", function() {
                     dsmu.game.showScreen("main-menu");

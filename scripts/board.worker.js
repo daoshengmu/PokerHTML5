@@ -1,10 +1,11 @@
 var dsmu = {};
+var poker = {};
 
 importScripts("board.js");
 
 
 addEventListener("message", function(event) {
-    var board = dsmu.board ,
+    var board = poker.scene ,
         message = event.data;
 
     switch (message.command) {
