@@ -12,7 +12,7 @@ tableEntity.prototype.parent = entity.prototype;
 
 tableEntity.prototype.draw = function(ctx) {
 
- 	ctx.save();
+ 	  ctx.save();
     ctx.beginPath();
     ctx.translate(this.x, this.y);
     ctx.scale(this.scale * 2, this.scale);
@@ -130,7 +130,7 @@ dealBtnEntity.prototype = new entity();
 dealBtnEntity.prototype.parent = entity.prototype;
 
 dealBtnEntity.prototype.draw = function(ctx) {
-	//clear background
+	  //clear background
   	ctx.fillStyle = "red";
   	ctx.fillRect(this.x, this.y-40, 80, 40);
   	// draw font in red
@@ -143,6 +143,55 @@ dealBtnEntity.prototype.draw = function(ctx) {
  *  Camera entity
  **/
  var cameraEntity = function() {
-  entity.call(this);
+    entity.call(this);
+
+    this.moveSpeed = 0;
  }
+
+ cameraEntity.prototype = new entity();
+
+ cameraEntity.prototype.parent = entity.prototype;
+
+ cameraEntity.drawList = null;
+
+ cameraEntity.prototype.moveRight = function() {
+
+    var scope = this;
+
+    cameraEntity.drawList.forEach(function(e) {
+
+        e.moveLeft(scope.moveSpeed);
+    });
+ };
+
+ cameraEntity.prototype.moveLeft = function() {
+
+    var scope = this;
+
+    cameraEntity.drawList.forEach(function(e) {
+
+        e.moveRight(scope.moveSpeed);
+    });
+ };
+
+ cameraEntity.prototype.moveUp = function() {
+
+    var scope = this;
+
+    cameraEntity.drawList.forEach(function(e) {
+
+        e.moveDown(scope.moveSpeed);
+    });
+ };
+
+ cameraEntity.prototype.moveDown = function() {
+
+    var scope = this;
+
+    cameraEntity.drawList.forEach(function(e) {
+
+        e.moveUp(scope.moveSpeed);
+    });
+ };
+
 

@@ -76,6 +76,7 @@ Modernizr.load([
     load : [
         "scripts/sizzle.js",
         "scripts/dom.js",
+        "scripts/libs/hammer.min.js",
         "scripts/requestAnimationFrame.js",
         "scripts/libs/entity.js",
         "scripts/game.js"

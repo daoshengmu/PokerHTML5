@@ -231,6 +231,7 @@ dsmu.screens["game-screen"] = (function() {
     var player2 = new playerEntity();
     var mainCharacter = new playerEntity();
     var dealBtn = new dealBtnEntity();
+    var camera = new cameraEntity();
 
     var player = new (function() {
         var that = this;
@@ -467,6 +468,87 @@ dsmu.screens["game-screen"] = (function() {
         // requestAnimationFrame(gameUpdate);
     };
 
+    function swipeHandle() {
+      var touchsurface = document.getElementById('scene'),
+      startX,
+      startY,
+      dist,
+      threshold = 150, //required min distance traveled to be considered swipe
+      allowedTime = 200, // maximum time allowed to travel that distance
+      elapsedTime,
+      startTime
+     
+      // if (Modernizr.touch) {
+
+      // } else {
+      //   touchsurface.addEventListener('onmousedown', function(e){
+      //       alert('dwdwd');
+      //   });
+      // }
+
+        var move, start, end;
+        var hammertime = new Hammer( touchsurface );
+        hammertime.add(new Hammer.Swipe({ direction: Hammer.DIRECTION_HORIZONTAL }));
+        hammertime.add(new Hammer.Pan({ direction: Hammer.DIRECTION_HORIZONTAL }));
+
+        hammertime.on('panstart', function(e){
+            move = e.direction;
+            start = e.distance;
+           
+        });
+
+        hammertime.on('panend', function(e){
+            move = e.direction;
+            end = e.distance;
+            //var totalDistance = end - start;
+
+            if (e.direction == Hammer.DIRECTION_RIGHT)
+                camera.moveRight();
+            
+            else if (e.direction == Hammer.DIRECTION_LEFT)
+                camera.moveLeft();
+
+            else if (e.direction == Hammer.DIRECTION_UP)
+                camera.moveUp();
+
+            else if (e.direction == Hammer.DIRECTION_DOWN)
+                camera.moveDown();
+        });
+
+     // function handleswipe(isrightswipe) {
+     //          if (isrightswipe)
+     //           alert('swipe right');
+     //          else{
+     //           alert('swipe left');
+     //          }
+     //         }
+             
+     //         touchsurface.addEventListener('touchstart', function(e){
+     //          //touchsurface.innerHTML = ''
+     //          var touchobj = e.changedTouches[0]
+     //          dist = 0
+     //          startX = touchobj.pageX
+     //          startY = touchobj.pageY
+     //          startTime = new Date().getTime() // record time when finger first makes contact with surface
+     //          e.preventDefault()
+             
+     //         }, false)
+             
+     //         touchsurface.addEventListener('touchmove', function(e){
+     //          e.preventDefault() // prevent scrolling when inside DIV
+     //         }, false)
+             
+     //         touchsurface.addEventListener('touchend', function(e){
+     //          var touchobj = e.changedTouches[0]
+     //          dist = touchobj.pageX - startX // get total dist traveled by finger while in contact with surface
+     //          elapsedTime = new Date().getTime() - startTime // get time elapsed
+     //          // check that elapsed time is within specified, horizontal dist traveled >= threshold, and vertical dist traveled <= 100
+     //        var swiperightBol = (elapsedTime <= allowedTime && dist >= threshold && Math.abs(touchobj.pageY - startY) <= 100)
+     //        handleswipe(swiperightBol)
+     //        e.preventDefault()
+     //        }, false);
+
+    }
 
     function run() {
         state = true;
@@ -475,6 +557,7 @@ dsmu.screens["game-screen"] = (function() {
         
         scene.initialize(function() {
             display.initialize(function() {
+                swipeHandle();
                 var tableSize = 80;
                 player.image = dsmu.images["images/angel.png"];
                 table.init(512, 288, tableSize);
@@ -496,8 +579,8 @@ dsmu.screens["game-screen"] = (function() {
                 mainCharacter.setPos(rect.width * 0.5, rect.height-179);
 
                 dealBtn.setPos(0, rect.height);
-                var scene = $("#scene")[0];
-                scene.onclick = function(e) {
+                var sceneDom = $("#scene")[0];
+                sceneDom.onclick = function(e) {
                     if ( (e.x >= 0) && (e.x <= 80)
                         && (e.y >= (rect.width-40) ) ) {
                             dealCardToPlayers(1);
@@ -506,6 +589,8 @@ dsmu.screens["game-screen"] = (function() {
 
                 cardEntity.dealer = dealer;
                 cardEntity.drawList = drawList;
+                cameraEntity.drawList = drawList;
+                camera.moveSpeed = 20;
 
                 // dealBtn.addEventListener('click', 
                 // function(e) { 

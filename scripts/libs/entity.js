@@ -36,3 +36,20 @@ entity.prototype.setPos = function(x,y) {
 	this.y = y;
 }
 
+entity.prototype.moveRight = function(shift) {
+	this.x += shift;
+}
+
+entity.prototype.moveLeft = function(shift) {
+	this.x -= shift;
+}
+
+entity.prototype.moveUp = function(shift) {
+	this.y -= shift;
+}
+
+entity.prototype.moveDown = function(shift) {
+	this.y += shift;
+}
+
+
