@@ -81,6 +81,7 @@ dsmu.display = (function() {
         var rect = $("#game .background")[0].getBoundingClientRect();
          
         canvas = document.createElement("canvas");
+        canvas.setAttribute('id', 'scene');
         ctx = canvas.getContext("2d");
         dom.addClass(canvas, "board");
         canvas.width = rect.width;
@@ -159,7 +160,7 @@ dsmu.display = (function() {
 
     function redraw( circles, platforms, player, callback) {
         clear();
-        drawCircles( circles );
+        //drawCircles( circles );
         drawPlatforms( platforms );
         drawPlayer( player );
         callback();

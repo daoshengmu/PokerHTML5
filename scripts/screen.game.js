@@ -12,7 +12,6 @@ dsmu.screens["game-screen"] = (function() {
             mouseX, mouseY,
             marioWidth = dsmu.settings.marioWidth,
             marioHeight = dsmu.settings.marioHeight,
-            tableSize = 80,
             gLoop,
             state = true,
             //canvas = document.createElement("canvas");
@@ -33,6 +32,78 @@ dsmu.screens["game-screen"] = (function() {
             if (position < rect.height - platformHeight)
                 position += ~~(rect.height / nrOfPlatforms);
         }
+    }
+
+    function dealCardToPlayers(numOfCards) {
+
+        var dir1X, dirY, dir2X, dir2Y, dirMeX, dirMeY;
+        var dealSpeed = 50;
+        var normalize = 0;
+
+        dir1X = player1.x - dealer.x;
+        dir1Y = player1.y - dealer.y;
+
+        // normailze 
+        lens = Math.sqrt(dir1X * dir1X + dir1Y * dir1Y);
+        dir1X = dir1X / lens;
+        dir1Y = dir1Y / lens;
+
+        var cards = [];
+        var firstCard;
+
+        for ( var i = 0; i < numOfCards; ++i ) {
+            // send card to player1
+            var card1 = generateCards();
+            card1.setPos(dealer.x, dealer.y);
+            card1.owner = player1;
+            cards.push(card1);
+
+            if ( i == 0 ) {
+                firstCard = card1;
+            } else {
+                card2.nextCard = card1;
+            }
+
+            // send card to main character
+            var cardMain = generateCards();
+            cardMain.setPos(dealer.x, dealer.y);
+            cardMain.owner = mainCharacter;
+            card1.nextCard = cardMain;
+            cards.push(cardMain);
+
+            // send card to player2
+            var card2 = generateCards();
+            card2.setPos(dealer.x, dealer.y);
+            card2.owner = player2;
+            cardMain.nextCard = card2;
+            cards.push(card2);
+
+            // var currentLens = 0;
+            // var progress = setInterval(function() {
+
+            //     if (currentLens >= lens) {
+            //         clearInterval(progress);
+            //     } else {
+            //         currentLens += dealSpeed;
+            //         card.x = dealer.x + currentLens * dir1X;
+            //         card.y = dealer.y + currentLens * dir1Y;
+            //     }
+
+            // }, 800);
+
+            //drawList.push(card);
+        }
+
+        firstCard.move();
+    }
+
+    function generateCards() {
+        var card = new cardEntity();
+
+        card.init(128, 179, 0.6);
+        card.setImage(dsmu.images['images/card-heartK.jpg'], 128, 179);
+
+        return card;
     }
 
     window.onmousemove = function(e) {
@@ -158,6 +229,8 @@ dsmu.screens["game-screen"] = (function() {
     var dealer = new dealerEntity();
     var player1 = new playerEntity();
     var player2 = new playerEntity();
+    var mainCharacter = new playerEntity();
+    var dealBtn = new dealBtnEntity();
 
     var player = new (function() {
         var that = this;
@@ -402,26 +475,67 @@ dsmu.screens["game-screen"] = (function() {
         
         scene.initialize(function() {
             display.initialize(function() {
+                var tableSize = 80;
                 player.image = dsmu.images["images/angel.png"];
-                table.init(tableSize, tableSize, 100);
-                table.setImage(dsmu.images['images/table-felt.jpg'], tableSize, tableSize);
+                table.init(512, 288, tableSize);
+                table.setImage(dsmu.images['images/table-felt.jpg'], 512, 288);
+                table.setPos(0, rect.height * 0.5);
 
                 dealer.init(256, 384, 0.6);
-                dealer.setImage(dsmu.images['images/dealer.jpg'], 256, 384);
-                dealer.setPos(50, 100);
+                dealer.setImage(dsmu.images['images/dealer.png'], 256, 384);
+                dealer.setPos(0+tableSize, (rect.height * 0.5)-tableSize-(384*0.6*0.5));
 
                 player1.init(256, 384, 0.6);
-                player1.setImage(dsmu.images['images/player1.jpg'], 256, 384);
-                player1.setPos(20, 100);
+                player1.setImage(dsmu.images['images/player1.png'], 256, 384);
+                player1.setPos(0, rect.height * 0.5);
 
                 player2.init(256, 384, 0.6);
-                player2.setImage(dsmu.images['images/player2.jpg'], 256, 384);
-                player2.setPos(80, 100);
+                player2.setImage(dsmu.images['images/player2.png'], 256, 384);
+                player2.setPos(rect.width-256*0.6*0.5, rect.height * 0.5);
+
+                mainCharacter.setPos(rect.width * 0.5, rect.height-179);
+
+                dealBtn.setPos(0, rect.height);
+                var scene = $("#scene")[0];
+                scene.onclick = function(e) {
+                    if ( (e.x >= 0) && (e.x <= 80)
+                        && (e.y >= (rect.width-40) ) ) {
+                            dealCardToPlayers(1);
+                        }
+                }
+
+                cardEntity.dealer = dealer;
+                cardEntity.drawList = drawList;
+
+                // dealBtn.addEventListener('click', 
+                // function(e) { 
+                //     alert('wdwdwwd'); 
+                // }, false);
+
+                // Creating deal button
+                // Dealing 2 cards to every player
+                //drawList.push(generateCards(0, 0)); 
 
                 drawList.push(table);
                 drawList.push(dealer);
                 drawList.push(player1);
                 drawList.push(player2);
+                drawList.push(dealBtn);
+
+                // Initial Dealing cards
+                dealCardToPlayers(2);
+
+
+                // background = $("#game .background")[0];
+                // var btn = document.createElement("div");
+                // btn.setAttribute('id', 'dealButton');
+                // background.appendChild(btn);
+                // btn.style.position = 'absolute';
+                // btn.style.bottom = '20px';
+                // btn.style.zIndex = '2';
+                // btn.onclick = function(e) {
+                //     alert('11111');
+                // }
 
                 display.redraw(circles, drawList, player, function() {
                     // do nothing for now

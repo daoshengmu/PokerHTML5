@@ -239,6 +239,21 @@ ul.menu li button:active {
     text-align : center;
 }
 
+/* deal button */
+#dealButton {
+    font-family : Slackey, sans-serif;
+    font-size : 0.6em;
+    color : rgb(130,30,30);
+    width : 10em;
+    height : 1.5em;
+    background : rgb(10,20,0);
+    border : 0.1em solid rgb(255,255,0);
+    border-radius : 0.5em;
+    -webkit-box-shadow : 0.2em 0.2em 0.3em rgb(0,0,0);
+    -moz-box-shadow : 0.2em 0.2em 0.3em rgb(0,0,0);
+    box-shadow : 0.2em 0.2em 0.3em rgb(0,0,0);
+}
+
 /* about styles */
 #about {
     text-align : center;

@@ -9,25 +9,6 @@ var entity = function() {
 	this.image = null;
 	this.imageWidth = 0;
 	this.imageHeight = 0;
-
-
-	// this.init = function(_width, _height, _scale) {
-	// 	width = _width;
-	// 	height = _height;
-	// 	scale = _scale;
-	// 	x = 0;
-	// 	y = 0;
-	// }
-
-	// this.draw = function(ctx) {
-	// 	alert("this is base entity");
-	// };
-
-	// this.image = function(img, imgWidth, imgHeight) {
-	// 	image = img;
-	// 	imageWidth = imgWidth;
-	// 	imageHeight = imgHeight;
-	// };
 };
 
 entity.prototype = entity;

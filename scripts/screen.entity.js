@@ -20,7 +20,8 @@ tableEntity.prototype.draw = function(ctx) {
     ctx.closePath();
     ctx.clip();
 
-    ctx.drawImage(this.image, 0, 0, 50, 50);
+    ctx.drawImage(this.image, 0, 0, this.imageWidth
+    , this.imageHeight);
 
     // ctx.beginPath();
     // ctx.arc(0, 0, 25, 0, Math.PI * 2, true);
@@ -60,3 +61,88 @@ playerEntity.prototype.draw = function(ctx) {
 	ctx.drawImage(this.image, 0, 0, this.imageWidth
     , this.imageHeight, this.x, this.y, this.width * this.scale, this.height * this.scale);
 };
+
+/** 
+ *	Card entity 
+**/
+var cardEntity = function() {
+	entity.call(this);
+
+  this.nextCard;
+  this.owner;
+
+  this.move = function() {
+
+    var dir1X, dirY, dir2X, dir2Y, dirMeX, dirMeY;
+    var scope = this;
+    var dealSpeed = 50;
+    var normalize = 0;
+
+    cardEntity.drawList.push(this);
+    dir1X = this.owner.x - cardEntity.dealer.x;
+    dir1Y = this.owner.y - cardEntity.dealer.y;
+
+    // normailze 
+    lens = Math.sqrt(dir1X * dir1X + dir1Y * dir1Y);
+    dir1X = dir1X / lens;
+    dir1Y = dir1Y / lens;
+
+    var currentLens = 0;
+    var progress = setInterval(function() {
+
+      if (currentLens >= lens) {
+          clearInterval(progress);
+
+          if (scope.nextCard)
+            scope.nextCard.move();
+      } else {
+          currentLens += dealSpeed;
+          scope.x = cardEntity.dealer.x + currentLens * dir1X;
+          scope.y = cardEntity.dealer.y + currentLens * dir1Y;
+      }
+
+    }, 800);
+  }
+}
+
+cardEntity.prototype = new entity();
+
+cardEntity.dealer = null;
+
+cardEntity.drawList = null;
+
+cardEntity.prototype.parent = entity.prototype;
+
+cardEntity.prototype.draw = function(ctx) {
+	ctx.drawImage(this.image, 0, 0, this.imageWidth
+    , this.imageHeight, this.x, this.y, this.width * this.scale, this.height * this.scale);
+};
+
+/**
+ *  Deal button entity
+ **/
+ var dealBtnEntity = function() {
+ 	entity.call(this);
+ }
+
+dealBtnEntity.prototype = new entity();
+
+dealBtnEntity.prototype.parent = entity.prototype;
+
+dealBtnEntity.prototype.draw = function(ctx) {
+	//clear background
+  	ctx.fillStyle = "red";
+  	ctx.fillRect(this.x, this.y-40, 80, 40);
+  	// draw font in red
+  	ctx.fillStyle = "white";
+  	ctx.font = "20pt sans-serif";
+  	ctx.fillText("Deal", this.x+2, this.y-10);
+};
+
+/**
+ *  Camera entity
+ **/
+ var cameraEntity = function() {
+  entity.call(this);
+ }
+

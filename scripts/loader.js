@@ -119,9 +119,10 @@ if (Modernizr.standalone) {
             "loader!scripts/screen.hiscore.js",
             "loader!images/angel.png", // can be removed, it is Mario
             "loader!images/table-felt.jpg",
-            "loader!images/dealer.jpg",
-            "loader!images/player1.jpg",
-            "loader!images/player2.jpg",
+            "loader!images/dealer.png",
+            "loader!images/player1.png",
+            "loader!images/player2.png",
+            "loader!images/card-heartK.jpg",
         ]
     }
     ]);
