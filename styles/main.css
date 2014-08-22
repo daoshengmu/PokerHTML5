@@ -19,25 +19,6 @@ body {
     color : rgb(200,200,100);
 }
 
-.mario-size {
-    font-size : 40px;
-}
-
-#mario-proto {
-    position : relative;
-    width : 1.625em;
-    height : 2.375em;    
-}
-
-.platform-size {
-    font-size : 40px;
-}
-
-#platform-proto {
-    width : 1.75em;
-    height : 0.5em;
-}
-
 #game .screen {
     position : absolute;
     width : 100%;

@@ -1,38 +1,15 @@
 dsmu.screens["game-screen"] = (function() {
     var scene = poker.scene ,
             display = dsmu.display,          
-            circles = [],
-            nrOfPlatforms = 7,
-            platforms = [],
             drawList = [],
-            platformWidth = dsmu.settings.platformWidth,
-            platformHeight = dsmu.settings.platformHeight,
             points = 0,
-            howManyCircles = 10,
             mouseX, mouseY,
-            marioWidth = dsmu.settings.marioWidth,
-            marioHeight = dsmu.settings.marioHeight,
             gLoop,
             state = true,
-            //canvas = document.createElement("canvas");
             dom = dsmu.dom,
             $ = dom.$,
             background = $("#game .background")[0],
             rect = background.getBoundingClientRect();
-
-    function generatePlatforms() {
-        var position = 0, type;
-        for (var i = 0; i < nrOfPlatforms; i++) {
-            type = ~~(Math.random() * 5);
-            if (type === 0)
-                type = 1;
-            else
-                type = 0;
-            platforms[i] = new Platform(Math.random() * (rect.width - platformWidth), position, type);
-            if (position < rect.height - platformHeight)
-                position += ~~(rect.height / nrOfPlatforms);
-        }
-    }
 
     function dealCardToPlayers(numOfCards) {
 
@@ -77,21 +54,6 @@ dsmu.screens["game-screen"] = (function() {
             card2.owner = player2;
             cardMain.nextCard = card2;
             cards.push(card2);
-
-            // var currentLens = 0;
-            // var progress = setInterval(function() {
-
-            //     if (currentLens >= lens) {
-            //         clearInterval(progress);
-            //     } else {
-            //         currentLens += dealSpeed;
-            //         card.x = dealer.x + currentLens * dir1X;
-            //         card.y = dealer.y + currentLens * dir1Y;
-            //     }
-
-            // }, 800);
-
-            //drawList.push(card);
         }
 
         firstCard.move();
@@ -109,25 +71,19 @@ dsmu.screens["game-screen"] = (function() {
     window.onmousemove = function(e) {
             mouseX = e.pageX;
             mouseY = e.pageY;
-            if (player.X > mouseX) {
-                player.moveLeft();
-            } else if (player.X < mouseX) {
-                player.moveRight();
-            }
+            
         };
         
     if (window.DeviceOrientationEvent) { 
         window.addEventListener("deviceorientation", function () {
          //   tilt([event.beta, event.gamma]);
-         player.moveAccMove(event.gamma*0.5);
         }, true);
     } else if (window.DeviceMotionEvent) {
         window.addEventListener('devicemotion', function () {       
-         player.moveAccMove(event.acceleration.x);
         }, true);
     } else {
         window.addEventListener("MozOrientation", function () {       
-            player.moveAccMove(orientation.x);
+
         }, true);
     }
 
@@ -185,17 +141,6 @@ dsmu.screens["game-screen"] = (function() {
         that.isMoving = ~~(Math.random() * 2);
         that.direction = ~~(Math.random() * 2) ? -1 : 1;
 
-//        var ctx = canvas.getContext("2d");
-
-//        that.draw = function(){
-//        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-//        var gradient = ctx.createRadialGradient(that.x + (platformWidth/2), that.y + (platformHeight/2), 5, that.x + (platformWidth/2), that.y + (platformHeight/2), 45);
-//        gradient.addColorStop(0, that.firstColor);
-//        gradient.addColorStop(1, that.secondColor);
-//        ctx.fillStyle = gradient;
-//        ctx.fillRect(that.x, that.y, platformWidth, platformHeight);
-//        };
-
         return that;
     };
 
@@ -214,17 +159,6 @@ dsmu.screens["game-screen"] = (function() {
         );
     };
 
-    // var table = new (function() {
-    //     var that = this;
-
-    //     that.width = tableSize;
-    //     that.height = tableSize;
-    //     that.imageWidth = tableSize;
-    //     that.imageHeight = tableSize;
-    //     that.actualFrame = 1;
-    //     that.X = 0;
-    //     that.Y = 0;
-    // })();
     var table = new tableEntity();
     var dealer = new dealerEntity();
     var player1 = new playerEntity();
@@ -232,183 +166,6 @@ dsmu.screens["game-screen"] = (function() {
     var mainCharacter = new playerEntity();
     var dealBtn = new dealBtnEntity();
     var camera = new cameraEntity();
-
-    var player = new (function() {
-        var that = this;
-        //    that.image = new Image();     
-        //  that.image.src = "angel.png";
-        that.width = marioWidth;  // 65
-        that.height = marioHeight;  // 95
-        that.frames = 1;
-        that.imageWidth = 65;
-        that.imageHeight = 95;
-        that.actualFrame = 0;
-        that.X = 0;
-        that.Y = 0;
-
-        //   that.image = dsmu.images["images/angel.png"];
-
-        that.isJumping = false;
-        that.isFalling = false;
-        that.jumpSpeed = 0;
-        that.fallSpeed = 0;
-
-        that.jump = function() {
-            if (!that.isJumping && !that.isFalling) {
-                that.fallSpeed = 0;
-                that.isJumping = true;
-                that.jumpSpeed = 17;
-            }
-        };
-
-        that.checkJump = function() {
-            //a lot of changes here
-
-            if (that.Y > rect.height * 0.4) {
-                that.setPosition(that.X, that.Y - that.jumpSpeed);
-            }
-            else {
-                if (that.jumpSpeed > 10)
-                    points++;
-                // if player is in mid of the gamescreen
-                // dont move player up, move obstacles down instead
-                MoveCircles(that.jumpSpeed * 0.5);
-
-                platforms.forEach(function(platform, ind) {
-                    platform.y += that.jumpSpeed;
-
-                    if (platform.y > rect.height) {
-                        var type = ~~(Math.random() * 5);
-                        if (type === 0)
-                            type = 1;
-                        else
-                            type = 0;
-
-                        platforms[ind] = new Platform(Math.random() * (rect.width - platformWidth), platform.y - rect.height, type);
-                    }
-                });
-            }
-
-            that.jumpSpeed--;
-            if (that.jumpSpeed === 0) {
-                that.isJumping = false;
-                that.isFalling = true;
-                that.fallSpeed = 1;
-            }
-
-        };
-
-        that.fallStop = function() {
-            that.isFalling = false;
-            that.fallSpeed = 0;
-            that.jump();
-        };
-
-        that.checkFall = function() {
-            if (that.Y < rect.height - that.height) {
-                that.setPosition(that.X, that.Y + that.fallSpeed);
-                that.fallSpeed++;
-            } else {
-                if (points === 0)
-                    that.fallStop();
-                else
-                    gameOver();
-            }
-        };
-
-        that.moveLeft = function() {
-            if (that.X > 0) {
-                that.setPosition(that.X - 5, that.Y);
-            }
-        };
-
-        that.moveRight = function() {
-            if (that.X + that.width < rect.width) {
-                that.setPosition(that.X + 5, that.Y);
-            }
-        };
-
-        that.moveAccMove = function(a) {
-            if ((that.X + that.width < rect.width) || (that.X > 0)) {
-                that.setPosition(that.X + (5 * a), that.Y);
-
-                if (that.X < 0)
-                    that.X = 0;
-
-                if (that.X + that.width > rect.width)
-                    that.X = rect.width - that.width;
-            }
-        };
-
-        that.setPosition = function(x, y) {
-            that.X = x;
-            that.Y = y;
-        };
-
-//        that.interval = 0;
-//        that.draw = function() {
-//            try {
-//                ctx.drawImage(that.image, 0, that.height * that.actualFrame, that.width, that.height, that.X, that.Y, that.width, that.height);
-//            }
-//            catch (e) {
-//            }
-//            ;
-//
-//            if (that.interval === 4) {
-//                if (that.actualFrame === that.frames) {
-//                    that.actualFrame = 0;
-//                }
-//                else {
-//                    that.actualFrame++;
-//                }
-//                that.interval = 0;
-//            }
-//            that.interval++;
-//        };
-    })();
-
-    function MoveCircles(deltaY) {
-        for (var i = 0; i < howManyCircles; i++) {
-            if (circles[i][1] - circles[i][2] > rect.height) {
-                //the circle is under the screen so we change
-                //informations about it 
-                circles[i][0] = Math.random() * rect.width;
-                circles[i][2] = Math.random() * 100;
-                circles[i][1] = 0 - circles[i][2];
-                circles[i][3] = Math.random() / 2;
-            } else {
-                //move circle deltaY pixels down
-                circles[i][1] += deltaY;
-            }
-        }
-    };
-
-    function setupCircles()
-    {
-        //  var canvas = document.createElement("canvas");
-
-        for (var i = 0; i < howManyCircles; i++)
-            circles.push([Math.random() * rect.width, Math.random() * rect.height, Math.random() * 100, Math.random() / 2]);
-    }
-    ;
-
-    function moveCircles(deltaY) {
-
-        //    var canvas = document.createElement("canvas");
-        for (var i = 0; i < howManyCircles; i++) {
-            if (circles[i][1] - circles[i][2] > rect.height) {
-                //the circle is under the screen so we change
-                //informations about it 
-                circles[i][0] = Math.random() * rect.width;
-                circles[i][2] = Math.random() * 100;
-                circles[i][1] = 0 - circles[i][2];
-                circles[i][3] = Math.random() / 2;
-            } else {
-                //move circle deltaY pixels down
-                circles[i][1] += deltaY;
-            }
-        }
-    };
 
     function detectPlayAgain()
     {       
@@ -432,32 +189,9 @@ dsmu.screens["game-screen"] = (function() {
         //  function gameUpdate() {
         //  drawCircles();
 
-        if (player.isJumping)
-            player.checkJump();
-        if (player.isFalling)
-            player.checkFall();
-
-        // player.draw();
-
-        platforms.forEach(function(platform, index) {
-            if (platform.isMoving) {
-                if (platform.x < 0) {
-                    platform.direction = 1;
-                } else if (platform.x > rect.width - platformWidth) {
-                    platform.direction = -1;
-                }
-                platform.x += platform.direction * (index / 2) * ~~(points / 100);
-            }
-
-            //        platform.draw();
-        }
-        );
-
-        checkCollision();
-
         //  moveCircles( 0.8);
 
-        display.redraw(circles, drawList, player, function() {
+        display.redraw(drawList, function() {
             // do nothing for now
         });
 
@@ -515,51 +249,16 @@ dsmu.screens["game-screen"] = (function() {
                 camera.moveDown();
         });
 
-     // function handleswipe(isrightswipe) {
-     //          if (isrightswipe)
-     //           alert('swipe right');
-     //          else{
-     //           alert('swipe left');
-     //          }
-     //         }
-             
-     //         touchsurface.addEventListener('touchstart', function(e){
-     //          //touchsurface.innerHTML = ''
-     //          var touchobj = e.changedTouches[0]
-     //          dist = 0
-     //          startX = touchobj.pageX
-     //          startY = touchobj.pageY
-     //          startTime = new Date().getTime() // record time when finger first makes contact with surface
-     //          e.preventDefault()
-             
-     //         }, false)
-             
-     //         touchsurface.addEventListener('touchmove', function(e){
-     //          e.preventDefault() // prevent scrolling when inside DIV
-     //         }, false)
-             
-     //         touchsurface.addEventListener('touchend', function(e){
-     //          var touchobj = e.changedTouches[0]
-     //          dist = touchobj.pageX - startX // get total dist traveled by finger while in contact with surface
-     //          elapsedTime = new Date().getTime() - startTime // get time elapsed
-     //          // check that elapsed time is within specified, horizontal dist traveled >= threshold, and vertical dist traveled <= 100
-     //        var swiperightBol = (elapsedTime <= allowedTime && dist >= threshold && Math.abs(touchobj.pageY - startY) <= 100)
-     //        handleswipe(swiperightBol)
-     //        e.preventDefault()
-     //        }, false);
-
     }
 
     function run() {
         state = true;
-        circles = [];
         points = 0;
         
         scene.initialize(function() {
             display.initialize(function() {
                 swipeHandle();
                 var tableSize = 80;
-                player.image = dsmu.images["images/angel.png"];
                 table.init(512, 288, tableSize);
                 table.setImage(dsmu.images['images/table-felt.jpg'], 512, 288);
                 table.setPos(0, rect.height * 0.5);
@@ -592,15 +291,6 @@ dsmu.screens["game-screen"] = (function() {
                 cameraEntity.drawList = drawList;
                 camera.moveSpeed = 20;
 
-                // dealBtn.addEventListener('click', 
-                // function(e) { 
-                //     alert('wdwdwwd'); 
-                // }, false);
-
-                // Creating deal button
-                // Dealing 2 cards to every player
-                //drawList.push(generateCards(0, 0)); 
-
                 drawList.push(table);
                 drawList.push(dealer);
                 drawList.push(player1);
@@ -609,7 +299,6 @@ dsmu.screens["game-screen"] = (function() {
 
                 // Initial Dealing cards
                 dealCardToPlayers(2);
-
 
                 // background = $("#game .background")[0];
                 // var btn = document.createElement("div");
@@ -622,21 +311,17 @@ dsmu.screens["game-screen"] = (function() {
                 //     alert('11111');
                 // }
 
-                display.redraw(circles, drawList, player, function() {
+                display.redraw( drawList, function() {
                     // do nothing for now
                 });
             });
 
-            player.setPosition(~~((rect.width - player.width) / 2), ~~((rect.height - player.height) / 2));
-            player.jump();
-            //  requestAnimationFrame(gameUpdate);
-            gameUpdate();
-
+            // player.setPosition(~~((rect.width - player.width) / 2), ~~((rect.height - player.height) / 2));
+            // player.jump();
+             gameUpdate();
+            
         });
-        setupCircles();
-        generatePlatforms();
 
-        // requestAnimationFrame(gameUpdate);
     }
 
     return {

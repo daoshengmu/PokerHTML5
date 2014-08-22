@@ -141,28 +141,20 @@ dsmu.display = (function() {
         //  }
 
 
-        player.forEach(
+        //  ctx.drawImage( player.image, 0, player.height * player.actualFrame, player.imageWidth
+        // , player.imageHeight, player.X, player.Y, player.width, player.height);
+    }
+
+    function redraw( drawList, callback) {
+        clear();
+        //drawCircles( circles );
+        
+        drawList.forEach(
           function(element) {
             element.draw(ctx);
           }
         );
-        //  ctx.drawImage( player.image, 0, player.height * player.actualFrame, player.imageWidth
-        // , player.imageHeight, player.X, player.Y, player.width, player.height);
-    }
-    
-    function drawPlayer( player )
-    {
-       // var image = dsmu.images["images/angel.png"];
-        
-        ctx.drawImage( player.image, 0, player.height * player.actualFrame, player.imageWidth
-        , player.imageHeight, player.X, player.Y, player.width, player.height);
-    }
-
-    function redraw( circles, platforms, player, callback) {
-        clear();
-        //drawCircles( circles );
-        drawPlatforms( platforms );
-        drawPlayer( player );
+        //drawPlayer( player );
         callback();
     }
 

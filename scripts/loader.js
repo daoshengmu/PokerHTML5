@@ -13,19 +13,6 @@ var poker = {};
 
 window.addEventListener("load", function() {
 
-// determine mario size
-var marioProto = document.getElementById("mario-proto"),
-    rect = marioProto.getBoundingClientRect();
-    
-var platformSize = document.getElementById("platform-proto"),
-    platform = platformSize.getBoundingClientRect();
-
-dsmu.settings.marioWidth = rect.width;
-dsmu.settings.marioHeight = rect.height;
-
-dsmu.settings.platformWidth = platform.width;
-dsmu.settings.platformHeight = platform.height;
-
 Modernizr.addTest("standalone", function() {
     return (window.navigator.standalone !== false);
 });
@@ -118,7 +105,6 @@ if (Modernizr.standalone) {
             "loader!scripts/screen.gameover.js",
             "loader!scripts/screen.about.js",
             "loader!scripts/screen.hiscore.js",
-            "loader!images/angel.png", // can be removed, it is Mario
             "loader!images/table-felt.jpg",
             "loader!images/dealer.png",
             "loader!images/player1.png",
