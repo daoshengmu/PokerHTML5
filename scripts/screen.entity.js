@@ -74,7 +74,7 @@ var cardEntity = function() {
 
     var dir1X, dirY, dir2X, dir2Y, dirMeX, dirMeY;
     var scope = this;
-    var dealSpeed = 50;
+    var dealSpeed = 30;
     var normalize = 0;
 
     cardEntity.drawList.push(this);
@@ -100,7 +100,7 @@ var cardEntity = function() {
           scope.y = cardEntity.dealer.y + currentLens * dir1Y;
       }
 
-    }, 800);
+    }, 100);
   }
 }
 
