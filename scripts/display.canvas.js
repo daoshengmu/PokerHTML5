@@ -65,7 +65,7 @@ dsmu.display = (function() {
     }
     
     function clear() {        
-       ctx.fillStyle = '#d0e7f9';
+       ctx.fillStyle = '#000000';
        ctx.beginPath();
       //start drawing
        ctx.rect(0, 0, canvas.width, canvas.height);
@@ -97,16 +97,6 @@ dsmu.display = (function() {
         };
     }
 
-//    function drawJewel(type, x, y) {
-//        var image = dsmu.images["images/jewels" +
-//                        jewelSize + ".png"];
-//        ctx.drawImage(image,
-//            type * jewelSize, 0, jewelSize, jewelSize,
-//            x * jewelSize, y * jewelSize,
-//            jewelSize, jewelSize
-//        );
-//    };
-
     function drawCircles( circles ) {
       //  var howManyCircles = 10, circles = [];
 
@@ -124,26 +114,6 @@ dsmu.display = (function() {
               ctx.fill();
             }
     }; 
-    
-    function drawPlatforms( player )
-    {
-        // var platform, platformWidth, platformHeight;
-        //  for (var i = 0; i < platforms.length; i++) {
-        //        platform = platforms[i];
-        //        platformWidth = platform.platformWidth;
-        //        platformHeight = platform.platformHeight;
-        //        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        //         var gradient = ctx.createRadialGradient(platform.x + (platformWidth/2), platform.y + (platformHeight/2), 5, platform.x + (platformWidth/2), platform.y + (platformHeight/2), 45);
-        //         gradient.addColorStop(0, platform.firstColor);
-        //         gradient.addColorStop(1, platform.secondColor);
-        //         ctx.fillStyle = gradient;
-        //         ctx.fillRect(platform.x, platform.y, platformWidth, platformHeight);
-        //  }
-
-
-        //  ctx.drawImage( player.image, 0, player.height * player.actualFrame, player.imageWidth
-        // , player.imageHeight, player.X, player.Y, player.width, player.height);
-    }
 
     function redraw( drawList, callback) {
         clear();
