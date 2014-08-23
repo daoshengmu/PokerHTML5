@@ -10,56 +10,13 @@ dsmu.display = (function() {
         firstRun = true;
 
     function createBackground() {
-//        var background = document.createElement("canvas"),
-//            bgctx = background.getContext("2d");
-//
-//        dom.addClass(background, "background");
-//        background.width = cols * jewelSize;
-//        background.height = rows * jewelSize;
-//
-//        bgctx.fillStyle = "rgba(225,235,255,0.15)";
-//        for (var x=0;x<cols;x++) {
-//            for (var y=0;y<cols;y++) {
-//                if ((x+y) % 2) {
-//                    bgctx.fillRect(
-//                        x * jewelSize, y * jewelSize,
-//                        jewelSize, jewelSize
-//                    );
-//                }
-//            }
-//        }
 
-          var canvas = document.createElement("canvas"),
-          ctx = canvas.getContext("2d"),
-          background = $("#game .background")[0];
-          //rect = background.getBoundingClientRect(),
-          //gradient,
-        //  i;
+        var canvas = document.createElement("canvas"),
+        ctx = canvas.getContext("2d"),
+        background = $("#game .background")[0];
+         
+        clear();
 
-          clear();
-//        canvas.width = rect.width;
-//        canvas.height = rect.height;
-//
-//        ctx.scale(rect.width, rect.height);
-//
-//        gradient = ctx.createRadialGradient(
-//            0.25, 0.15, 0.5,
-//            0.25, 0.15, 1
-//        );
-//        gradient.addColorStop(0, "rgb(55,65,50)");
-//        gradient.addColorStop(1, "rgb(0,0,0)");
-//        ctx.fillStyle = gradient;
-//        ctx.fillRect(0, 0, 1, 1);
-//
-//        ctx.strokeStyle = "rgba(255,255,255,0.02)";
-//        ctx.strokeStyle = "rgba(0,0,0,0.2)";
-//        ctx.lineWidth = 0.008;
-//        ctx.beginPath();
-//        for (i=0;i<2;i+=0.020) {
-//            ctx.moveTo(i, 0);
-//            ctx.lineTo(i - 1, 1);
-//        }
-//        ctx.stroke();
         background.appendChild(canvas);
         return background;
     }

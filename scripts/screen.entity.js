@@ -20,8 +20,7 @@ tableEntity.prototype.draw = function(ctx) {
     ctx.closePath();
     ctx.clip();
 
-    ctx.drawImage(this.image, 0, 0, this.imageWidth
-    , this.imageHeight);
+    ctx.drawImage(this.image, 0, 0, 2, 2);
 
     // ctx.beginPath();
     // ctx.arc(0, 0, 25, 0, Math.PI * 2, true);

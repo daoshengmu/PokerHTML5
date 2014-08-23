@@ -269,7 +269,7 @@ dsmu.screens["game-screen"] = (function() {
 
                 player1.init(256, 384, 0.6);
                 player1.setImage(dsmu.images['images/player1.png'], 256, 384);
-                player1.setPos(0+tableSize+20, (rect.height * 0.5)-tableSize-(384*0.6*0.5));
+                player1.setPos(0, rect.height * 0.5);
 
                 player2.init(256, 384, 0.6);
                 player2.setImage(dsmu.images['images/player2.png'], 256, 384);
