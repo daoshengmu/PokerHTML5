@@ -106,9 +106,9 @@ if (Modernizr.standalone) {
             "loader!scripts/screen.about.js",
             "loader!scripts/screen.hiscore.js",
             "loader!images/table-felt.jpg",
+            "loader!images/player_1.png",
+            "loader!images/player_2.png",
             "loader!images/dealer.png",
-            "loader!images/player1.png",
-            "loader!images/player2.png",
             "loader!images/card-heartK.jpg",
         ]
     }

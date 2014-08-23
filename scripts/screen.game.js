@@ -161,7 +161,7 @@ dsmu.screens["game-screen"] = (function() {
 
     var table = new tableEntity();
     var dealer = new dealerEntity();
-    var player1 = new playerEntity();
+    var player1 = new dealerEntity();
     var player2 = new playerEntity();
     var mainCharacter = new playerEntity();
     var dealBtn = new dealBtnEntity();
@@ -258,7 +258,7 @@ dsmu.screens["game-screen"] = (function() {
         scene.initialize(function() {
             display.initialize(function() {
                 swipeHandle();
-                var tableSize = 80;
+                var tableSize = 100;
                 table.init(512, 288, tableSize);
                 table.setImage(dsmu.images['images/table-felt.jpg'], 512, 288);
                 table.setPos(0, rect.height * 0.5);
@@ -268,12 +268,12 @@ dsmu.screens["game-screen"] = (function() {
                 dealer.setPos(0+tableSize, (rect.height * 0.5)-tableSize-(384*0.6*0.5));
 
                 player1.init(256, 384, 0.6);
-                player1.setImage(dsmu.images['images/player1.png'], 256, 384);
-                player1.setPos(0, rect.height * 0.5);
+                player1.setImage(dsmu.images['images/player_1.png'], 256, 384);
+                player1.setPos(-256*0.6, rect.height * 0.3);
 
                 player2.init(256, 384, 0.6);
-                player2.setImage(dsmu.images['images/player2.png'], 256, 384);
-                player2.setPos(rect.width-256*0.6*0.5, rect.height * 0.5);
+                player2.setImage(dsmu.images['images/player_2.png'], 256, 384);
+                player2.setPos(rect.width+256*0.1, rect.height * 0.3);
 
                 mainCharacter.setPos(rect.width * 0.5, rect.height-179);
 
