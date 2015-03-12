@@ -121,7 +121,7 @@ cardEntity.prototype.draw = function(ctx) {
  *  Deal button entity
  **/
  var dealBtnEntity = function() {
- 	entity.call(this);
+    entity.call(this);
  }
 
 dealBtnEntity.prototype = new entity();
